@@ -1,14 +1,22 @@
-import { Component } from 'react'
-import Hello from './components/Hello'
-import Welcome from './components/Welcome'
+import React, { Component } from 'react'
+import axios from 'axios'
 
-// 创建并暴露外壳组件App
 export default class App extends Component {
+  getStudentData = () => {
+    axios.get('').then(
+      (res) => {
+        console.log('成功了', res)
+      },
+      (err) => {
+        console.log('失败了', err)
+      }
+    )
+  }
+
   render() {
     return (
       <div>
-        <Hello></Hello>
-        <Welcome></Welcome>
+        <button onClick={this.getStudentData}></button>
       </div>
     )
   }
