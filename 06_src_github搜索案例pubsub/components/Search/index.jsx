@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PubSub from 'pubsub-js'
-// import axios from 'axios'
+import axios from 'axios'
 
 export default class Search extends Component {
   search = () => {
@@ -13,39 +13,24 @@ export default class Search extends Component {
       isFirst: false,
       isLoading: true
     })
-    // 发送网络请求---使用axios
-    // axios.get(`/api1/search/users2?q=${keyWord}`).then(
-    //   (res) => {
-    //     console.log(res)
-    //     // 请求成功后通知List更新状态
-    //     PubSub.publish('userList', {
-    //       isLoading: false,
-    //       users: res.data.items
-    //     })
-    //   },
-    //   (err) => {
-    //     // 请求失败后通知List更新状态
-    //     PubSub.publish('userList', {
-    //       isLoading: false,
-    //       err: err.message
-    //     })
-    //   }
-    // )
-
-    // 发送网络请求---fetch
-    fetch(`/api1/search/users2?q=${keyWord}`)
-      .then((res) => {
-        return res.json()
-      })
-      .then((res) => {
+    // 发送网络请求
+    axios.get(`/api1/search/users?q=${keyWord}`).then(
+      (res) => {
+        console.log(res)
+        // 请求成功后通知List更新状态
         PubSub.publish('userList', {
           isLoading: false,
-          users: res.items
+          users: res.data.items
         })
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+      },
+      (err) => {
+        // 请求失败后通知List更新状态
+        PubSub.publish('userList', {
+          isLoading: false,
+          err: err.message
+        })
+      }
+    )
   }
 
   render() {
